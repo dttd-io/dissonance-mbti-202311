@@ -1,0 +1,54 @@
+.fade-in-text {
+    opacity: 0; /* Start with the text invisible */
+    animation: fadeInAnimation 20s ease forwards; /* Adjust '10s' to control the duration */
+}
+
+@keyframes fadeInAnimation {
+    to {
+        opacity: 1; /* Fade to fully visible */
+    }
+}
+
+/* Other styles for #cktc-button-01 and #cktc-button-02 remain unchanged */
+
+.rainbow-text {
+    background: linear-gradient(to right, #ffce34, #f5683a, #009d49, #0067a2, #009d49, #f5683a, #ffce34);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent; /* This makes the text itself transparent */
+    animation: rainbow-animation 10s linear infinite, fadeInAnimation 10s ease forwards;
+    background-size: 200% auto;
+}
+
+@keyframes rainbow-animation {
+    to {
+        background-position: 200% center;
+    }
+}
+
+#cktc-button-01 {
+    animation: cktcColorFade01 10s infinite;
+}
+
+@keyframes cktcColorFade01 {
+    0%,
+    100% {
+        background-color: #e390c5;
+    }
+    50% {
+        background-color: #99dcfd;
+    }
+}
+#cktc-button-02 {
+    animation: cktcColorFade02 10s infinite;
+}
+
+@keyframes cktcColorFade02 {
+    0%,
+    100% {
+        background-color: #99dcfd;
+    }
+    50% {
+        background-color: #e390c5;
+    }
+}
