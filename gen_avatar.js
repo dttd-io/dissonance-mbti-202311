@@ -3,6 +3,8 @@ const mbtiType = urlParams.get('mbti_type')
 const gender = urlParams.get('gender')
 const url = 'https://coh1c0iiff.execute-api.ap-southeast-1.amazonaws.com/Prod/t2i?mbtitype=' + mbtiType + '&gender=' + gender
 
+console.log(mbtiType)
+
 let eScore = urlParams.get('e')
 let iScore = urlParams.get('i')
 let nScore = urlParams.get('n')
@@ -161,17 +163,17 @@ function handleCompletion() {
 }
 
 // Event listener for the button click
-document.getElementById('validateButton').addEventListener('click', function () {
-    handleCompletion()
-})
+// document.getElementById('validateButton').addEventListener('click', function () {
+//     handleCompletion()
+// })
 
-var input = document.getElementById('emailInput')
-input.onkeydown = function (event) {
-    if (event.keyCode === 13) {
-        event.preventDefault()
-        handleCompletion()
-    }
-}
+// var input = document.getElementById('emailInput')
+// input.onkeydown = function (event) {
+//     if (event.keyCode === 13) {
+//         event.preventDefault()
+//         handleCompletion()
+//     }
+// }
 
 const designData = {
     mbtiTypes: [
