@@ -90,7 +90,11 @@ fetch(url, {
         function loadImage(imageUrl, imgElement) {
             const image = new Image()
             image.onload = function () {
-                $(imgElement).hide().attr('src', imageUrl).fadeIn(10000)
+                // $(imgElement).hide().attr('src', imageUrl).fadeIn(10000)
+                $(imgElement).fadeOut(3000, function () {
+                    // Fade out over 1000 milliseconds (1 second)
+                    $(this).attr('src', imageUrl).fadeIn(10000) // After fade-out, change the source and fade in
+                })
             }
             image.onerror = function () {
                 console.error('Failed to load image:', imageUrl)
