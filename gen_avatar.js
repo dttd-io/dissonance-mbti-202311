@@ -281,15 +281,19 @@ const designData = {
     ],
 }
 
+let mbtiPersonality = ''
+let mbtiDesc = ''
+let bgColor = ''
+
 // Function to find MBTI type and assign values to variables
 function findAndAssignMBTIValues(myType) {
     const mbtiTypes = designData.mbtiTypes
     let foundType = mbtiTypes.find((type) => type.mbtiType === myType)
 
     if (foundType) {
-        let mbtiPersonality = foundType.mbtiPersonality
-        let mbtiDesc = foundType.mbtiDesc
-        let bgColor = foundType.bgColor
+        mbtiPersonality = foundType.mbtiPersonality
+        mbtiDesc = foundType.mbtiDesc
+        bgColor = foundType.bgColor
 
         console.log(`MBTI Type: ${myType}`)
         console.log(`Personality: ${mbtiPersonality}`)
@@ -301,3 +305,10 @@ function findAndAssignMBTIValues(myType) {
 }
 
 findAndAssignMBTIValues(mbtiType)
+
+document.addEventListener('DOMContentLoaded', (event) => {
+    document.body.style.backgroundColor = bgColor
+    document.getElementById('mbti-type').textContent = mbtiType
+    document.getElementById('mbti-desc').textContent = mbtiDesc
+    document.getElementById('mbti-personality').textContent = mbtiPersonality
+})
