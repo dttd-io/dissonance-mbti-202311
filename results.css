@@ -42,4 +42,25 @@
 
 #email-block {
     opacity: 0;
+    transition: opacity 2s ease-in-out;
+}
+
+@keyframes colorCycle {
+    0%,
+    100% {
+        background-color: #ec7443;
+    }
+    25% {
+        background-color: #f7ce54;
+    }
+    50% {
+        background-color: #449852;
+    }
+    75% {
+        background-color: #2b669d;
+    }
+}
+
+#validate-button {
+    animation: colorCycle 8s infinite linear;
 }

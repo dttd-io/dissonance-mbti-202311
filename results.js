@@ -57,7 +57,8 @@ var gndr = '' // Declare gndr at the top of your script
 function setUpEmailBlock() {
     console.log('setUpEmailBlock()')
     var emailBlock = document.getElementById('email-block')
-    emailBlock.style.opacity = 1
+    // emailBlock.style.opacity = 1
+    document.getElementById('email-block').style.opacity = 1
     document.getElementById('validate-button').href = '/gen-avatar?mbtitype=' + userMBTI + gndr + allScoreStr
 }
 
@@ -116,7 +117,7 @@ function handleCompletion() {
     if (validateEmail(emailInput)) {
         console.log('The email address is valid!')
         const url2 =
-            'https://mbti-2-b78e9b5d46b6315c92f79a6a1347ef2b.webflow.io/gen-avatar?mbti_type=' +
+            '/gen-avatar?mbti_type=' +
             userMBTI +
             '&eml=' +
             emailInput +
@@ -140,7 +141,26 @@ function handleCompletion() {
         console.log(url2)
         // alert(url2)
 
-        window.location.href = url2 // Redirect to url2
+        var overlay = document.createElement('div')
+        Object.assign(overlay.style, {
+            position: 'fixed',
+            top: '0',
+            left: '0',
+            width: '100%',
+            height: '100%',
+            backgroundColor: 'black',
+            opacity: '0',
+            zIndex: '9999',
+            transition: 'opacity 3s ease',
+        })
+
+        document.body.appendChild(overlay)
+        overlay.style.opacity = '1'
+
+        // window.location.href = url2 // Redirect to url2
+        setTimeout(function () {
+            window.location.href = url2
+        }, 3000) // This should match the transition duration
     } else {
         alert('The email address is not valid!')
     }
