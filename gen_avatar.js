@@ -3,9 +3,8 @@
 const urlParams = new URLSearchParams(window.location.search)
 const mbtiType = urlParams.get('mbti_type')
 const gender = urlParams.get('gender')
+const email = urlParams.get('eml')
 const url = 'https://coh1c0iiff.execute-api.ap-southeast-1.amazonaws.com/Prod/t2i?mbtitype=' + mbtiType + '&gender=' + gender
-
-console.log(mbtiType)
 
 let eScore = urlParams.get('e')
 let iScore = urlParams.get('i')
@@ -15,105 +14,78 @@ let tScore = urlParams.get('t')
 let fScore = urlParams.get('f')
 let jScore = urlParams.get('j')
 let pScore = urlParams.get('p')
-
 let allScoreStr =
     '&e=' + eScore + '&i=' + iScore + '&n=' + nScore + '&s=' + sScore + '&t=' + tScore + '&f=' + fScore + '&j=' + jScore + '&p=' + pScore
-
 var sd_response_meta = ''
 
-const texts = ['Hello, world!', 'Welcome to the site!', 'Enjoy your stay!']
-let currentIndex = 0
+console.log(mbtiType)
 
-function displayText() {
-    const textElement = document.getElementById('text-element')
-    if (!textElement) return // Stop if the element does not exist
-
-    // Remove the 'fade-out' class if it's there
-    textElement.classList.remove('fade-out')
-
-    // Change the text
-    textElement.textContent = texts[currentIndex]
-
-    // Fade in the new text
-    textElement.classList.add('fade-in')
-
-    // Prepare for the next text
-    currentIndex = (currentIndex + 1) % texts.length
-
-    // After 5 seconds, fade the text out and call displayText again to cycle to the next text
-    setTimeout(() => {
-        textElement.classList.remove('fade-in')
-        textElement.classList.add('fade-out')
-        setTimeout(displayText, 5000)
-    }, 5000)
+if (urlParams.has('img_url')) {
+    console.log('Parameter "img_url" exists.')
+} else {
+    console.log('Parameter "img_url" does not exist.')
 }
 
-// Start the display cycle
-displayText()
-
-// Create an AbortController object
-//const controller = new AbortController();
-
-// Use the setTimeout() function to trigger the abort method after a specified time
-//const timeoutId = setTimeout(() => controller.abort(), 30000);
-
-fetch(url, {
-    method: 'GET',
-    //mode: 'cors',
-    //signal: controller.signal,
-    //headers: {
-    //  'Content-Type': 'application/json',
-    //  'Origin': 'https://test-20231014.webflow.io'
-    //  }
-})
-    .then((response) => response.json())
-    .then((data) => {
-        // Process the response data
-        console.log('!!! Some data returned')
-        console.log(data)
-        const imageUrl = data.body.output[0]
-        console.log(imageUrl)
-
-        //  setTimeout(function() {
-        // your code here
-        //  var img = document.getElementById("avatar-image");
-        //  img.src = imageUrl;
-        //img.src = "https://d313xg4mt2ic8m.cloudfront.net/generations/0-0777e4a3-4369-4fa2-ad1e-be49c39a55a9.png"
-        //  }, 5000);
-
-        for (const key in data.body.meta) {
-            if (data.body.meta.hasOwnProperty(key)) {
-                const value = encodeURIComponent(data.body.meta[key])
-                sd_response_meta += `${key}=${value}&`
-            }
-        }
-        sd_response_meta = sd_response_meta.slice(0, -1)
-
-        function loadImage(imageUrl, imgElement) {
-            const image = new Image()
-            image.onload = function () {
-                // $(imgElement).hide().attr('src', imageUrl).fadeIn(10000)
-                $(imgElement).fadeOut(3000, function () {
-                    // Fade out over 1000 milliseconds (1 second)
-                    $(this).attr('src', imageUrl).fadeIn(10000) // After fade-out, change the source and fade in
-                })
-            }
-            image.onerror = function () {
-                console.error('Failed to load image:', imageUrl)
-                setTimeout(function () {
-                    loadImage(imageUrl, imgElement)
-                }, 7000)
-            }
-            image.src = imageUrl // This will trigger the load event after the handlers are attached.
-        }
-
-        const imgElement = $('#avatar-image') // Ensure this is a jQuery object.
-        loadImage(imageUrl, imgElement)
+function fetchData(url) {
+    fetch(url, {
+        method: 'GET',
+        //mode: 'cors',
+        //signal: controller.signal,
+        //headers: {
+        //  'Content-Type': 'application/json',
+        //  'Origin': 'https://test-20231014.webflow.io'
+        //  }
     })
-    .catch((error) => {
-        // Handle any errors
-        console.error(error)
-    })
+        .then((response) => response.json())
+        .then((data) => {
+            // Process the response data
+            console.log('!!! Some data returned')
+            console.log(data)
+            const imageUrl = data.body.output[0]
+            console.log(imageUrl)
+
+            //  setTimeout(function() {
+            // your code here
+            //  var img = document.getElementById("avatar-image");
+            //  img.src = imageUrl;
+            //img.src = "https://d313xg4mt2ic8m.cloudfront.net/generations/0-0777e4a3-4369-4fa2-ad1e-be49c39a55a9.png"
+            //  }, 5000);
+
+            for (const key in data.body.meta) {
+                if (data.body.meta.hasOwnProperty(key)) {
+                    const value = encodeURIComponent(data.body.meta[key])
+                    sd_response_meta += `${key}=${value}&`
+                }
+            }
+            sd_response_meta = sd_response_meta.slice(0, -1)
+
+            const imgElement = $('#avatar-image') // Ensure this is a jQuery object.
+            loadImage(imageUrl, imgElement)
+        })
+        .catch((error) => {
+            // Handle any errors
+            console.error(error)
+        })
+}
+// fetchData(url)
+
+function loadImage(imageUrl, imgElement) {
+    const image = new Image()
+    image.onload = function () {
+        // $(imgElement).hide().attr('src', imageUrl).fadeIn(10000)
+        $(imgElement).fadeOut(3000, function () {
+            // Fade out over 1000 milliseconds (1 second)
+            $(this).attr('src', imageUrl).fadeIn(10000) // After fade-out, change the source and fade in
+        })
+    }
+    image.onerror = function () {
+        console.error('Failed to load image:', imageUrl)
+        setTimeout(function () {
+            loadImage(imageUrl, imgElement)
+        }, 7000)
+    }
+    image.src = imageUrl // This will trigger the load event after the handlers are attached.
+}
 
 // Function to validate email
 function validateEmail(email) {
