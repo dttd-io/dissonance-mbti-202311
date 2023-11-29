@@ -1,29 +1,16 @@
-.fade-in-text {
-    opacity: 0; /* Start with the text invisible */
-    animation: fadeInAnimation 20s ease forwards; /* Adjust '10s' to control the duration */
-}
-
-@keyframes fadeInAnimation {
+/* Define the keyframes for fade-in effect */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
     to {
-        opacity: 1; /* Fade to fully visible */
+        opacity: 1;
     }
 }
 
-/* Other styles for #cktc-button-01 and #cktc-button-02 remain unchanged */
-
-.rainbow-text {
-    background: linear-gradient(to right, #ffce34, #f5683a, #009d49, #0067a2, #009d49, #f5683a, #ffce34);
-    -webkit-background-clip: text;
-    background-clip: text;
-    color: transparent; /* This makes the text itself transparent */
-    animation: rainbow-animation 10s linear infinite, fadeInAnimation 10s ease forwards;
-    background-size: 200% auto;
-}
-
-@keyframes rainbow-animation {
-    to {
-        background-position: 200% center;
-    }
+/* Apply the animation to your element */
+#cktc-main {
+    animation: fadeIn 2s ease-in-out;
 }
 
 #cktc-button-01 {
@@ -51,4 +38,8 @@
     50% {
         background-color: #e390c5;
     }
+}
+
+#email-block {
+    opacity: 0;
 }
