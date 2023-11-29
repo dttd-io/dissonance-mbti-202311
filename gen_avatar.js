@@ -22,8 +22,10 @@ console.log(mbtiType)
 
 if (urlParams.has('img_url')) {
     console.log('Parameter "img_url" exists.')
+    loadImage(urlParams.get('img_url'), $('#avatar-image'))
 } else {
     console.log('Parameter "img_url" does not exist.')
+    fetchData(url)
 }
 
 function fetchData(url) {
