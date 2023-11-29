@@ -1,4 +1,4 @@
-https://cdn.jsdelivr.net/gh/dttd-io/dissonance-mbti-202311/results.js
+// https://cdn.jsdelivr.net/gh/dttd-io/dissonance-mbti-202311/results.js
 
 const urlParams = new URLSearchParams(window.location.search)
 // document.getElementById('cktc-e').textContent = urlParams.get('e')
@@ -74,7 +74,7 @@ document.getElementById('img-female').addEventListener('click', function () {
     // Set your variable here
     gndr = '&gender=f'
     console.log('Variable set to:', gndr) // For demonstration
-    // alert(gndr) 
+    // alert(gndr)
     setUpEmailBlock()
 })
 // When click on girl banner

@@ -1,4 +1,4 @@
-https://cdn.jsdelivr.net/gh/dttd-io/dissonance-mbti-202311/gen_avatar.js
+// https://cdn.jsdelivr.net/gh/dttd-io/dissonance-mbti-202311/gen_avatar.js
 
 const urlParams = new URLSearchParams(window.location.search)
 const mbtiType = urlParams.get('mbti_type')
