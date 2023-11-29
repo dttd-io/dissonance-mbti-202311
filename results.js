@@ -1,3 +1,5 @@
+https://cdn.jsdelivr.net/gh/dttd-io/dissonance-mbti-202311/results.js
+
 const urlParams = new URLSearchParams(window.location.search)
 // document.getElementById('cktc-e').textContent = urlParams.get('e')
 // document.getElementById('cktc-i').textContent = urlParams.get('i')
