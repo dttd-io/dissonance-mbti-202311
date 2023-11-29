@@ -17,16 +17,109 @@ let pScore = urlParams.get('p')
 let allScoreStr =
     '&e=' + eScore + '&i=' + iScore + '&n=' + nScore + '&s=' + sScore + '&t=' + tScore + '&f=' + fScore + '&j=' + jScore + '&p=' + pScore
 var sd_response_meta = ''
+let urlForTwitter = ''
 
 console.log(mbtiType)
 
 if (urlParams.has('img_url')) {
     console.log('Parameter "img_url" exists.')
-    loadImage(urlParams.get('img_url'), $('#avatar-image'))
+    document.getElementById('avatar-image').style.opacity = 0
+    document.getElementById('avatar-image').src = urlParams.get('img_url')
+    setTimeout(function () {
+        document.getElementById('avatar-image').style.transition = 'opacity 5s ease-in'
+        document.getElementById('avatar-image').style.opacity = 1
+    }, 2000)
+    urlForTwitter = 'https://www.mootiez.com/gen-avatar?mbti_type=' + mbtiType + '&img_url=' + urlParams.get('img_url')
+    setTwitterShare('Tweet to Mootiez!', urlForTwitter)
 } else {
     console.log('Parameter "img_url" does not exist.')
+    document.getElementById('avatar-image').style.opacity = 1
     fetchData(url)
 }
+
+// function loadImage(imageUrl, imgElement) {
+//     const image = new Image()
+//     image.onload = function () {
+//         // $(imgElement).hide().attr('src', imageUrl).fadeIn(10000)
+//         // alert('Image.onload')
+//         $(imgElement).fadeOut(3000, function () {
+//             // alert('Image.fadeOut')
+//             // Fade out over 1000 milliseconds (1 second)
+//             $(this).attr('src', imageUrl).fadeIn(10000) // After fade-out, change the source and fade in
+//         })
+//     }
+//     image.onerror = function () {
+//         console.error('Failed to load image:', imageUrl)
+//         setTimeout(function () {
+//             loadImage(imageUrl, imgElement)
+//         }, 7000)
+//     }
+//     image.src = imageUrl // This will trigger the load event after the handlers are attached.
+// }
+
+// function loadImage(imageUrl, imgElement) {
+//     console.log('Loading image:', imageUrl)
+
+//     const image = new Image()
+//     image.onload = function () {
+//         console.log('Image loaded, starting fade out.')
+
+//         $(imgElement).fadeOut(3000, function () {
+//             console.log('Fade out complete, changing source and fading in.')
+//             $(this).attr('src', imageUrl).fadeIn(10000)
+//         })
+//     }
+//     image.onerror = function () {
+//         console.error('Failed to load image:', imageUrl)
+//         setTimeout(function () {
+//             loadImage(imageUrl, imgElement)
+//         }, 7000)
+//     }
+//     image.src = imageUrl
+// }
+
+function loadImage(imageUrl, imgElement) {
+    console.log('Loading image:', imageUrl)
+
+    // Create a new image object
+    const image = new Image()
+    image.onload = function () {
+        console.log('Image loaded, starting fade out.')
+
+        setTwitterShare('Tweet to Mootiez!', urlForTwitter)
+
+        // Start the fade-out effect
+        imgElement.style.transition = 'opacity 3s ease-out'
+        imgElement.style.opacity = 0
+
+        // Wait for the fade-out to complete
+        setTimeout(function () {
+            console.log('Fade out complete, changing source and fading in.')
+
+            // Change the image source
+            imgElement.src = imageUrl
+
+            // Start the fade-in effect
+            imgElement.style.transition = 'opacity 10s ease-in'
+            imgElement.style.opacity = 1
+        }, 3000) // 3000 milliseconds for fade-out duration
+    }
+
+    image.onerror = function () {
+        console.error('Failed to load image:', imageUrl)
+        setTimeout(function () {
+            loadImage(imageUrl, imgElement)
+        }, 7000)
+    }
+
+    // Set the image source to start loading
+    image.src = imageUrl
+}
+
+// Usage example:
+// Assuming there's an <img id="avatar-image" ...> element in your HTML
+// var imgElement = document.getElementById('avatar-image')
+// loadImage('https://your_image_url.png', imgElement)
 
 function fetchData(url) {
     fetch(url, {
@@ -61,8 +154,12 @@ function fetchData(url) {
             }
             sd_response_meta = sd_response_meta.slice(0, -1)
 
-            const imgElement = $('#avatar-image') // Ensure this is a jQuery object.
+            // const imgElement = $('#avatar-image') // Ensure this is a jQuery object.
+            const imgElement = document.getElementById('avatar-image')
+            urlForTwitter = 'https://www.mootiez.com/gen-avatar?mbti_type=' + mbtiType + '&img_url=' + imageUrl
+            setTwitterShare('Tweet to Mootiez!', urlForTwitter)
             loadImage(imageUrl, imgElement)
+            handleCompletion(imageUrl)
         })
         .catch((error) => {
             // Handle any errors
@@ -71,33 +168,15 @@ function fetchData(url) {
 }
 // fetchData(url)
 
-function loadImage(imageUrl, imgElement) {
-    const image = new Image()
-    image.onload = function () {
-        // $(imgElement).hide().attr('src', imageUrl).fadeIn(10000)
-        $(imgElement).fadeOut(3000, function () {
-            // Fade out over 1000 milliseconds (1 second)
-            $(this).attr('src', imageUrl).fadeIn(10000) // After fade-out, change the source and fade in
-        })
-    }
-    image.onerror = function () {
-        console.error('Failed to load image:', imageUrl)
-        setTimeout(function () {
-            loadImage(imageUrl, imgElement)
-        }, 7000)
-    }
-    image.src = imageUrl // This will trigger the load event after the handlers are attached.
-}
-
 // Function to validate email
 function validateEmail(email) {
     var re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
     return re.test(email)
 }
 
-function handleCompletion() {
-    var emailInput = document.getElementById('emailInput').value
-    var imageUrl = document.getElementById('avatar-image').src
+function handleCompletion(imageUrl) {
+    var emailInput = email
+    // var imageUrl = document.getElementById('avatar-image').src
     if (validateEmail(emailInput)) {
         console.log('The email address is valid!')
         const url2 =
@@ -123,7 +202,7 @@ function handleCompletion() {
             jScore +
             '&p=' +
             pScore
-        console.log(url2)
+        console.log('Saving data:', url2)
 
         fetch(url2, {
             method: 'GET',
@@ -286,6 +365,20 @@ function findAndAssignMBTIValues(myType) {
 
 findAndAssignMBTIValues(mbtiType)
 
+function setTwitterShare(text, url) {
+    // URL encode the text and URL
+    var encodedText = encodeURIComponent(text)
+    var encodedURL = encodeURIComponent(url)
+
+    // Construct the Twitter share URL
+    var twitterURL = `https://twitter.com/intent/tweet?text=${encodedText}&url=${encodedURL}`
+    console.log('Twitter URL:', twitterURL)
+
+    // Set the href attribute of the button
+    document.getElementById('twitter-button').href = twitterURL
+    document.getElementById('twitter-button').innerText = text
+}
+
 document.addEventListener('DOMContentLoaded', (event) => {
     document.body.style.backgroundColor = bgColor
     document.getElementById('mbti-type').textContent = mbtiType
@@ -293,5 +386,4 @@ document.addEventListener('DOMContentLoaded', (event) => {
     document.getElementById('mbti-personality').textContent = mbtiPersonality
 })
 
-// todo: add email handling
-// todo: check if image url is provided, if yes, just display the image
+// todo: social share
